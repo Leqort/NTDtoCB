@@ -18,6 +18,12 @@ def parseString(inputString):
     for group in groups:
         textDrawText = re.search(patternOfName['TextDrawCreate'], group)
         textDrawFont = re.search(patterOfFont['TextDrawFont'], group)
+        publicTD = re.search(r'PublicTD\[(\d+)\]', group)
+
+        if publicTD:
+            result = [publicTD.group(1)]
+        else:
+            result = ["0"]
 
         # Text parse
         if textDrawFont and int(textDrawFont.group(1)) in [0, 1, 2, 3] and textDrawText and textDrawText.group(3) != "_":
@@ -43,8 +49,6 @@ def parseString(inputString):
                 'TextDrawSetOutline', 'TextDrawSetShadow', 'TextDrawAlignment',
                 'TextDrawSetSelectable'
             ]
-
-            result = ["0"]
 
             extracted_values = {key: None for key in fieldOrder}
 
@@ -92,8 +96,6 @@ def parseString(inputString):
                 'TextDrawSetSelectable'
             ]
 
-            result = ["0"]
-
             extracted_values = {key: None for key in fieldOrder}
 
             for key, pattern in patterns.items():
@@ -132,8 +134,6 @@ def parseString(inputString):
                 'TextDrawCreate', 'TextDrawTextSize', 'TextDrawTextSize',
                 '0xFFFFFFFF', 'TextDrawAlignment', '2', 'TextDrawSetSelectable', '-1', 'TextDrawCreate'
             ]
-
-            result = ["0"]
 
             extracted_values = {key: None for key in fieldOrder}
 
@@ -180,8 +180,6 @@ def parseString(inputString):
                 'TextDrawColor', 'TextDrawBackgroundColor', 'TextDrawSetSelectable', '-1'
             ]
 
-            result = ["0"]
-
             extracted_values = {key: None for key in fieldOrder}
 
             for key, pattern in patterns.items():
@@ -207,4 +205,4 @@ def parseString(inputString):
 
             results.append(" ".join(result))
 
-    return Main.resultUI("\n".join(results))
+    return Main.resultUI("\n ".join(results))
